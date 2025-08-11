@@ -1,0 +1,14 @@
+SSH Tunnel
+ssh -i "C:\Users\Sanja\.ssh\my-aws-key.pem" -L 5432:pg-devdb.cluster-c3ucy8emokwu.ap-south-1.rds.amazonaws.com:5432 ec2-user@35.154.163.34
+
+Connect to AWS Bastion Host
+ssh -i "C:\Users\Sanja\.ssh\my-aws-key.pem" ec2-user@35.154.163.34
+
+Bastion host should have PostgreSQL client
+
+scp -i "C:\Users\Sanja\.ssh\my-aws-key.pem" ec2-user@35.154.163.34:/home/ec2-user/lambda_function_payload.zip .
+
+scp -i "C:\Users\Sanja\.ssh\my-aws-key.pem" lambda_function.py ec2-user@35.154.163.34:/home/ec2-user/
+
+35.154.163.34/32
+

@@ -1,0 +1,66 @@
+terraform init
+
+terraform plan -var-file="D:\Sanjai\AWS\terraform\postgres_instance\.tfvars" -out=tfplan
+
+terraform apply tfplan
+
+terraform destroy
+
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    status VARCHAR(20) NOT NULL, -- e.g., 'active', 'inactive', 'pending', 'suspended'
+    last_login TIMESTAMP WITH TIME ZONE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Add a comment to explain the status column's purpose for clarity
+COMMENT ON COLUMN users.status IS 'The current status of the user account (e.g., active, inactive, pending).';
+COMMENT ON COLUMN users.last_login IS 'The timestamp of the user''s last successful login.';
+
+
+INSERT INTO users (username, status, last_login) VALUES
+('AliceActiveRecent', 'active', NOW() - INTERVAL '1 day'),
+('BobActiveOld', 'active', NOW() - INTERVAL '30 days'),
+('CharlieInactive', 'inactive', NOW() - INTERVAL '5 days'),
+('DavidActiveVeryRecent', 'active', NOW() - INTERVAL '2 hours'),
+('EvePending', 'pending', NULL), -- No login yet
+('FrankActiveMonthAgo', 'active', NOW() - INTERVAL '1 month'),
+('GraceSuspended', 'suspended', NOW() - INTERVAL '10 days'),
+('HenryActiveYesterday', 'active', NOW() - INTERVAL '1 day' + INTERVAL '3 hours'),
+('IvyActiveLastWeek', 'active', NOW() - INTERVAL '7 days'),
+('JackInactiveRecent', 'inactive', NOW() - INTERVAL '2 days'),
+('KarenActiveToday', 'active', NOW() - INTERVAL '30 minutes'),
+('LeoActiveTwoMonths', 'active', NOW() - INTERVAL '60 days'),
+('MiaActiveNullLogin', 'active', NULL), -- Active but never logged in, or login not tracked
+('NoraPending', 'pending', NULL),
+('OscarActiveFiveDays', 'active', NOW() - INTERVAL '5 days');
+
+
+
+
+
+
+CREATE TABLE products (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    tags TEXT[]
+);
+
+
+INSERT INTO products (name, tags) VALUES
+('Smartwatch X1', '{"electronics", "wearable", "tech"}'),
+('Noise-Cancelling Headphones Pro', '{"electronics", "audio", "premium"}'),
+('AI-Powered Home Assistant', '{"electronics", "smart home", "ai"}'),
+('Wireless Bluetooth Speaker', '{"electronics", "audio", "portable"}'),
+('Ergonomic Office Chair', '{"furniture", "office", "comfort"}'),
+('Mechanical Gaming Keyboard', '{"electronics", "gaming", "tech"}'),
+('Organic Cotton T-Shirt', '{"apparel", "clothing", "organic"}'),
+('Leather Wallet Classic', '{"accessories", "fashion", "premium"}'),
+('AI Image Recognition Software', '{"software", "ai", "tools"}'),
+('Cloud Storage Service (1TB)', '{"software", "utilities", "cloud"}');
+
+
+
+
